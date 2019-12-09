@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: ./docker/api/Dockerfile
+    volumes:
+      - ./src/api:/go/src/github.com/laster18/app/
+      - vendor:/go/src/api/vendor
+    ports:
+      - 3001:3001
+    tty:
+      true
+  front:
+    build:
+      context: .
+      dockerfile: ./docker/front/Dockerfile
+    volumes:
+      - ./src/front/:/frontend-app
+      - node_modules:/frontend-app/node_modules
+    environment:
+      - NODE_ENV=development
+      - PORT=8001
+    ports:
+      - 8001:8001
+
+volumes:
+  vendor:
+    driver: local
+  node_modules:
+    driver: local
