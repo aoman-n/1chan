@@ -10,6 +10,8 @@ services:
       - vendor:/go/src/api/vendor
     ports:
       - 3001:3001
+    depends_on:
+      - db
     tty:
       true
   front:
@@ -24,9 +26,24 @@ services:
       - PORT=8001
     ports:
       - 8001:8001
+    depends_on:
+      - api
+  db:
+    restart: always
+    image: mysql:5.7
+    volumes:
+      - db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: 1chan
+      MYSQL_USER: root
+      MYSQL_ROOT_PASSWORD: password
+    ports:
+      - 3307:3306
 
 volumes:
   vendor:
     driver: local
   node_modules:
+    driver: local
+  db:
     driver: local
