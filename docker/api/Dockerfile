@@ -1,7 +1,7 @@
 FROM golang:1.12.0-alpine
 
-COPY ./src/api /go/src/github.com/laster18/app/
-WORKDIR /go/src/github.com/laster18/app/
+COPY ./src/api /go/src/github.com/laster18/1chan/src/api
+WORKDIR /go/src/github.com/laster18/1chan/src/api
 
 RUN apk update \
   && apk add --no-cache git \
