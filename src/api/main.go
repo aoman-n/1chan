@@ -17,17 +17,31 @@ type Product struct {
 	Price uint
 }
 
+func gormConnect() (*gorm.DB, error) {
+	DBMS := "mysql"
+	USER := config.Db.User
+	PASSWORD := config.Db.Password
+	PROTOCOL := fmt.Sprintf("tcp(db:%s)", config.Db.Port)
+	DBNAME := config.Db.Name
+	QUERY := "?charset=utf8&parseTime=True&loc=Local"
+	CONNECT := USER + ":" + PASSWORD + "@" + PROTOCOL + "/" + DBNAME + QUERY
+	fmt.Println(CONNECT)
+
+	db, err := gorm.Open(DBMS, CONNECT)
+	return db, err
+}
+
+func sampleMiddleware(c *gin.Context) {
+	fmt.Println("sample middleware!!!!! : before")
+	c.Next()
+	fmt.Println("sample middleware!!!!! : after")
+}
+
 func main() {
 	// TODO: loggerをmiddlewareで実装する？もしくはライブラリを使う
 	utils.LoggingSettings(config.Server.Logfile)
 
-	dbUrl := fmt.Sprintf(
-		"%s:%s@tcp(db:%s)/%s",
-		config.Db.User,
-		config.Db.Password,
-		config.Db.Port,
-		config.Db.Name)
-	db, err := gorm.Open("mysql", dbUrl+"?charset=utf8&parseTime=True&loc=Local")
+	db, err := gormConnect()
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -36,6 +50,7 @@ func main() {
 	db.AutoMigrate(&Product{})
 
 	r := gin.Default()
+	r.Use(sampleMiddleware)
 	r.GET("/ping", func(c *gin.Context) {
 		c.JSON(200, gin.H{
 			"message": "ping",
