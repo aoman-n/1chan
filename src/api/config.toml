@@ -1,0 +1,9 @@
+[db]
+user     = "root"
+password = "password"
+port     = "3306"
+name     = "1chan"
+
+[server]
+port    = "3001"
+logfile = "1chan.log"

@@ -1,9 +1,13 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
+
+	"github.com/laster18/1chan/src/api/config"
 	"github.com/laster18/1chan/src/api/utils"
 )
 
@@ -14,10 +18,16 @@ type Product struct {
 }
 
 func main() {
-	utils.LoggingSettings("1chan.log")
+	// TODO: loggerをmiddlewareで実装する？もしくはライブラリを使う
+	utils.LoggingSettings(config.Server.Logfile)
 
-	// TODO: DB情報を環境変数+configで管理する
-	db, err := gorm.Open("mysql", "root:password@tcp(db:3306)/1chan?charset=utf8&parseTime=True&loc=Local")
+	dbUrl := fmt.Sprintf(
+		"%s:%s@tcp(db:%s)/%s",
+		config.Db.User,
+		config.Db.Password,
+		config.Db.Port,
+		config.Db.Name)
+	db, err := gorm.Open("mysql", dbUrl+"?charset=utf8&parseTime=True&loc=Local")
 	if err != nil {
 		panic("failed to connect database")
 	}
@@ -31,5 +41,5 @@ func main() {
 			"message": "ping",
 		})
 	})
-	r.Run(":3001")
+	r.Run(":" + config.Server.Port)
 }
