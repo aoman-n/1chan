@@ -8,6 +8,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 
 	"github.com/laster18/1chan/src/api/config"
+	"github.com/laster18/1chan/src/api/routers"
 	"github.com/laster18/1chan/src/api/utils"
 )
 
@@ -31,13 +32,9 @@ func gormConnect() (*gorm.DB, error) {
 	return db, err
 }
 
-func sampleMiddleware(c *gin.Context) {
-	fmt.Println("sample middleware!!!!! : before")
-	c.Next()
-	fmt.Println("sample middleware!!!!! : after")
-}
-
 func main() {
+	gin.SetMode("debug")
+
 	// TODO: loggerをmiddlewareで実装する？もしくはライブラリを使う
 	utils.LoggingSettings(config.Server.Logfile)
 
@@ -50,11 +47,6 @@ func main() {
 	db.AutoMigrate(&Product{})
 
 	r := gin.Default()
-	r.Use(sampleMiddleware)
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "ping",
-		})
-	})
+	routers.InitRouter(r)
 	r.Run(":" + config.Server.Port)
 }
