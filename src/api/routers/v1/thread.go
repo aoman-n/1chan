@@ -10,6 +10,7 @@ import (
 	"github.com/laster18/1chan/src/api/models"
 )
 
+// TODO: postのcountも返したい
 func GetThreads(c *gin.Context) {
 
 	var threads []models.Thread

@@ -31,7 +31,7 @@
 |thread_id  |int      |foreign key     |
 |user_name  |string   |                |
 |message    |string   |                |
-|image      |string   |                |
 |created_at |date     |                |
 |updated_at |date     |                |
+|image      |string   |                |
 |author_hash|string   |削除時に使用      |
