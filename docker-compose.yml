@@ -14,6 +14,9 @@ services:
       - db
     tty:
       true
+    environment:
+      DATABASE_URL: tcp:db:3306*1chan/root/password
+      HOGE: miso
   front:
     build:
       context: .
@@ -22,8 +25,8 @@ services:
       - ./src/front/:/frontend-app
       - node_modules:/frontend-app/node_modules
     environment:
-      - NODE_ENV=development
-      - PORT=8001
+      NODE_ENV: development
+      PORT: 8001
     ports:
       - 8001:8001
     depends_on:
