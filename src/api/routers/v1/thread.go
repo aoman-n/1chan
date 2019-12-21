@@ -10,7 +10,20 @@ import (
 	"github.com/laster18/1chan/src/api/models"
 )
 
+// threadの詳細(posts付き)
+func GetThread(c *gin.Context) {
+	threadId := c.Param("id")
+
+	var thread models.Thread
+	db.Db.Find(&thread, threadId).Related(&thread.Posts)
+
+	c.JSON(200, gin.H{
+		"thread": thread,
+	})
+}
+
 // TODO: postのcountも返したい
+// FIXME: post: nullで返却されるのでこのフィールドを消して返したい
 func GetThreads(c *gin.Context) {
 
 	var threads []models.Thread
