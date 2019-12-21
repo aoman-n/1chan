@@ -35,3 +35,26 @@
 |updated_at |date     |                |
 |image      |string   |                |
 |author_hash|string   |削除時に使用      |
+
+## API
+
+### create thread
+
+GET `/api/v1/threads`
+
+Request Params
+```json
+{
+  "title": "sample title",
+  "description": "sample description"
+}
+```
+
+Sample Request
+```shell
+$ curl -X POST -H "Content-Type: application/json" \
+-d '{ "title": "sample title", "description": "sample desc." }' \
+http://localhost:3001/api/v1/threads
+
+> {"status":"ok"}
+```

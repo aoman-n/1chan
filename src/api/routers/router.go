@@ -17,9 +17,15 @@ func InitRouter(r *gin.Engine) {
 
 	prefixV1 := r.Group("/api/v1")
 	{
+		// thread API
 		prefixV1.GET("/threads", v1.GetThreads)
 		prefixV1.POST("/threads", v1.CraeteThread)
 		prefixV1.PATCH("/threads/:id", v1.UpdateThread)
+		prefixV1.GET("/threads/:id", v1.GetThread)
+
+		// post API
+		prefixV1.GET("/threads/:id/posts", v1.GetPosts)
+		prefixV1.POST("/threads/:id/posts", v1.CreatePost)
 	}
 
 }
