@@ -6,4 +6,5 @@ name     = "1chan"
 
 [server]
 port    = "3001"
-logfile = "1chan.log"
+accessLogfile = "access.log"
+appLogfile = "application.log"

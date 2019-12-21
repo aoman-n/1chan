@@ -35,8 +35,7 @@ func gormConnect() (*gorm.DB, error) {
 func main() {
 	gin.SetMode("debug")
 
-	// TODO: loggerをmiddlewareで実装する？もしくはライブラリを使う
-	utils.LoggingSettings(config.Server.Logfile)
+	utils.InitLogging()
 
 	db, err := gormConnect()
 	if err != nil {

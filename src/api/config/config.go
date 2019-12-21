@@ -11,7 +11,8 @@ type ConfigList struct {
 
 type ServerConfig struct {
 	Port    string `toml:"port"`
-	Logfile string `toml:"logfile"`
+	AccessLogfile string `toml:"accessLogfile"`
+	AppLogfile string `toml:"appLogfile"`
 }
 
 type DbConfig struct {
