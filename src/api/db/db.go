@@ -7,7 +7,7 @@ import (
 	"github.com/laster18/1chan/src/api/config"
 )
 
-var db *gorm.DB
+var Db *gorm.DB
 
 func getDbConnect() string {
 	USER := config.Db.User
@@ -23,19 +23,18 @@ func getDbConnect() string {
 func gormConnect() (*gorm.DB, error) {
 	DBMS := "mysql"
 	CONNECT := getDbConnect()
-	fmt.Println(CONNECT)
 	db, err := gorm.Open(DBMS, CONNECT)
 	return db, err
 }
 
 func Setup() {
 	var err error
-	db, err = gormConnect()
+	Db, err = gormConnect()
 	if err != nil {
 		panic("failed to connect database")
 	}
 }
 
 func Close() {
-	db.Close()
+	Db.Close()
 }

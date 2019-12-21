@@ -2,7 +2,6 @@ package routers
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laster18/1chan/src/api/routers/apiV1"
@@ -12,7 +11,6 @@ func sampleMiddleware(c *gin.Context) {
 	fmt.Println("sample middleware!!!!! : before")
 	c.Next()
 	fmt.Println("sample middleware!!!!! : after")
-	log.Println("sample middleware2!! output log.Println")
 }
 
 func InitRouter(r *gin.Engine) {

@@ -1,5 +1,5 @@
 package models
 
 type Post struct {
-	id int
+	Id int `json:"id"`
 }
