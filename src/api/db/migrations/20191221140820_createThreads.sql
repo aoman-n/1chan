@@ -12,5 +12,4 @@ CREATE TABLE threads (
 
 -- +goose Down
 -- SQL section 'Down' is executed when this migration is rolled back
-
-DROP TABLE threads;
+DROP TABLE IF EXISTS threads;
