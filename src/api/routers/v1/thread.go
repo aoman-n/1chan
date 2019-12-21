@@ -22,14 +22,14 @@ func GetThreads(c *gin.Context) {
 	})
 }
 
-type CreateThreadParams struct {
+type ThreadParams struct {
 	Title       string `form:"title" json:"title"`
 	Description string `form:"description" json:"description"`
 }
 
 func CraeteThread(c *gin.Context) {
 	// json parse
-	var json CreateThreadParams
+	var json ThreadParams
 	if err := c.ShouldBindJSON(&json); err != nil {
 		log.Println("shouldBindJSON error: ", err)
 	}
@@ -37,7 +37,7 @@ func CraeteThread(c *gin.Context) {
 	// validation
 	if json.Title == "" {
 		c.JSON(400, gin.H{
-			"status":  "ng",
+			"status":  "Bad Request",
 			"message": "title is required.",
 		})
 	}
@@ -48,4 +48,39 @@ func CraeteThread(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"status": "ok",
 	})
+}
+
+func UpdateThread(c *gin.Context) {
+	id := c.Param("id")
+	log.Println("id: ", id)
+
+	var thread models.Thread
+	db.Db.First(&thread, id)
+	log.Println("target thread: ", thread)
+
+	// json parse
+	var json ThreadParams
+	if err := c.ShouldBindJSON(&json); err != nil {
+		log.Println("shouldBindJSON error: ", err)
+	}
+
+	// validation
+	if json.Title == "" {
+		c.JSON(400, gin.H{
+			"status":  "Bad Request",
+			"message": "title is required.",
+		})
+	}
+
+	// update thread data
+	thread.Title = json.Title
+	if thread.Description != "" {
+		thread.Description = json.Description
+	}
+	db.Db.Save(&thread)
+	c.JSON(201, gin.H{
+		"status": "ok",
+		"thread": thread,
+	})
+
 }

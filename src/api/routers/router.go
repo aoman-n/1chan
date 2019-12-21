@@ -8,8 +8,7 @@ import (
 )
 
 func printReqCtxMiddleware(c *gin.Context) {
-	log.Printf("request path: %s", c.Request.URL.Path)
-	// log.Println("request postForm: %v", c.PostForm)
+	log.Printf("Reaquest method: %s, path: %s", c.Request.Method, c.Request.URL.Path)
 	c.Next()
 }
 
@@ -20,6 +19,7 @@ func InitRouter(r *gin.Engine) {
 	{
 		prefixV1.GET("/threads", v1.GetThreads)
 		prefixV1.POST("/threads", v1.CraeteThread)
+		prefixV1.PATCH("/threads/:id", v1.UpdateThread)
 	}
 
 }
