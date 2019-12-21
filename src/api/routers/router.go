@@ -26,6 +26,9 @@ func InitRouter(r *gin.Engine) {
 		// post API
 		prefixV1.GET("/threads/:id/posts", v1.GetPosts)
 		prefixV1.POST("/threads/:id/posts", v1.CreatePost)
+
+		// sample image upload API
+		prefixV1.POST("/upload", v1.UploadImage)
 	}
 
 }

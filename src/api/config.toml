@@ -8,3 +8,4 @@ name     = "1chan"
 port    = "3001"
 accessLogfile = "access.log"
 appLogfile = "application.log"
+uploadMaxFileSize = 5242880

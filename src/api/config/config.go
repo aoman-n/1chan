@@ -10,9 +10,10 @@ type ConfigList struct {
 }
 
 type ServerConfig struct {
-	Port    string `toml:"port"`
-	AccessLogfile string `toml:"accessLogfile"`
-	AppLogfile string `toml:"appLogfile"`
+	Port              string `toml:"port"`
+	AccessLogfile     string `toml:"accessLogfile"`
+	AppLogfile        string `toml:"appLogfile"`
+	UploadMaxFileSize int64  `toml:"uploadMaxFileSize"`
 }
 
 type DbConfig struct {
