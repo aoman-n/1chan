@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
@@ -31,9 +32,15 @@ func main() {
 
 	// setup gin
 	gin.SetMode("debug")
-	r := gin.Default()
-	routers.InitRouter(r)
+	router := gin.Default()
+	// FIXME: 一旦すべて許可しておく
+	router.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"},
+		AllowMethods: []string{"GET", "POST", "DELETE", "OPTIONS"},
+		AllowHeaders: []string{"*"},
+	}))
+	routers.InitRouter(router)
 
 	// start server
-	r.Run(":" + config.Server.Port)
+	router.Run(":" + config.Server.Port)
 }
