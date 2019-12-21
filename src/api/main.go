@@ -39,6 +39,7 @@ func main() {
 		AllowMethods: []string{"GET", "POST", "DELETE", "OPTIONS"},
 		AllowHeaders: []string{"*"},
 	}))
+	router.Static("/assets", "./assets")
 	routers.InitRouter(router)
 
 	// start server

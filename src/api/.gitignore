@@ -1,3 +1,4 @@
 vendor
 gin-bin
 *.log
+assets/images/*
