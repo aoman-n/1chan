@@ -5,5 +5,6 @@ type Post struct {
 	ThreadId int    `json:"thread_id"`
 	UserName string `json:"user_name"`
 	Message  string `json:"message"`
+	Image    string `json:"image"`
 	Timestamp
 }

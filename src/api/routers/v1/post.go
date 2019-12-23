@@ -2,10 +2,12 @@ package v1
 
 import (
 	"log"
+	"mime/multipart"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laster18/1chan/src/api/db"
 	"github.com/laster18/1chan/src/api/models"
+	"github.com/laster18/1chan/src/api/utils/uploader"
 )
 
 func GetPosts(c *gin.Context) {
@@ -22,15 +24,16 @@ func GetPosts(c *gin.Context) {
 	})
 }
 
-type PostParams struct {
-	UserName string `form:"user_name" json:"user_name"`
-	Message  string `form:"message" json:"message"`
+type CreatePostForm struct {
+	UserName string                `form:"user_name"`
+	Message  string                `form:"message" binding:"required"`
+	Image    *multipart.FileHeader `form:"image"`
 }
 
 func CreatePost(c *gin.Context) {
 	threadId := c.Param("id")
 
-	// threadが存在するか確認
+	// threadの存在チェック
 	var thread models.Thread
 	db.Db.First(&thread, threadId)
 	if thread.Id == 0 {
@@ -41,36 +44,51 @@ func CreatePost(c *gin.Context) {
 		return
 	}
 
-	// json parse
-	var json PostParams
-	if err := c.ShouldBindJSON(&json); err != nil {
-		log.Println("shouldBindJSON error: ", err)
+	form := CreatePostForm{
+		UserName: "名無しさん",
+	}
+
+	if err := c.ShouldBind(&form); err != nil {
+		log.Println("ShouldBind Error: ", err)
 		c.JSON(400, gin.H{
 			"status":  "Bad Request",
-			"message": "undefined data or not support data type.",
+			"message": err.Error(),
 		})
 		return
 	}
 
-	// post parametersのバリデーション
-	if json.Message == "" {
-		c.JSON(400, gin.H{
-			"status":  "Bad Request",
-			"message": "message is required.",
-		})
-		return
+	filePath, err := uploader.UploadImage(form.Image, c)
+	if err != nil {
+		log.Println("file upload error: ", err.Error())
+		switch e := err.(type) {
+		case *uploader.FileSizeError:
+			log.Println("File Size Error: ", e.Msg)
+			c.JSON(413, gin.H{
+				"status":  "Bad Request",
+				"message": "Cannot upload image larger than 5MB",
+			})
+			return
+		case *uploader.NotSupportFiletypeError:
+			log.Println("Not Support Filetype Error: ", e.Msg)
+			c.JSON(400, gin.H{"status": "Bad Request", "message": e.Msg})
+			return
+		case *uploader.SaveError:
+			log.Println("Image Save Error: ", e.Msg)
+			c.JSON(500, gin.H{"status": "Bad Request", "message": err.Error()})
+			return
+		default:
+			log.Println("Unexpected Error: ", e)
+			c.JSON(500, gin.H{"status": "Unexpected Server Error"})
+			return
+		}
 	}
 
-	userName := json.UserName
-	if userName == "" {
-		userName = "Mr. NoName"
-	}
-
-	// insert post
+	// Insert Post
 	post := models.Post{
-		UserName: userName,
-		Message:  json.Message,
+		UserName: form.UserName,
+		Message:  form.Message,
 		ThreadId: thread.Id,
+		Image:    filePath,
 	}
 	db.Db.Create(&post)
 	c.JSON(200, gin.H{
