@@ -19,16 +19,14 @@ services:
       HOGE: miso
   front:
     build:
-      context: .
-      dockerfile: ./docker/front/Dockerfile
+      context: ./front
+      dockerfile: Dockerfile
     volumes:
-      - ./src/front/:/frontend-app
-      - node_modules:/frontend-app/node_modules
-    environment:
-      NODE_ENV: development
-      PORT: 8001
+      - ./front/:/app
+      - /app/node_modules
+      - /app/.next
     ports:
-      - 8001:8001
+      - "3000:3000"
     depends_on:
       - api
   db:
@@ -48,8 +46,6 @@ services:
 
 volumes:
   vendor:
-    driver: local
-  node_modules:
     driver: local
   db:
     driver: local
