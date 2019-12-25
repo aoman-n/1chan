@@ -6,8 +6,8 @@ services:
       context: .
       dockerfile: ./docker/api/Dockerfile
     volumes:
-      - ./src/api:/go/src/github.com/laster18/1chan/src/api
-      - vendor:/go/src/github.com/laster18/1chan/src/api/vendor
+      - ./api:/go/src/github.com/laster18/1chan/api
+      - vendor:/go/src/github.com/laster18/1chan/api/vendor
     ports:
       - 3001:3001
     depends_on:

@@ -4,7 +4,7 @@ import (
 	"log"
 
 	"github.com/gin-gonic/gin"
-	v1 "github.com/laster18/1chan/src/api/routers/v1"
+	v1 "github.com/laster18/1chan/api/routers/v1"
 )
 
 func printReqCtxMiddleware(c *gin.Context) {

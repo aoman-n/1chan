@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-	"github.com/laster18/1chan/src/api/config"
+	"github.com/laster18/1chan/api/config"
 
 )
 

@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	"github.com/laster18/1chan/src/api/db"
-	"github.com/laster18/1chan/src/api/models"
+	"github.com/laster18/1chan/api/db"
+	"github.com/laster18/1chan/api/models"
 )
 
 // threadの詳細(posts付き)

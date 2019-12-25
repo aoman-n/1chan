@@ -1,7 +1,7 @@
 FROM golang:1.13-alpine
 
-COPY ./src/api /go/src/github.com/laster18/1chan/src/api
-WORKDIR /go/src/github.com/laster18/1chan/src/api
+COPY ./api /go/src/github.com/laster18/1chan/api
+WORKDIR /go/src/github.com/laster18/1chan/api
 
 # 下記エラーのワークアラウンド
 # github.com/pressly/goose/vendor/github.com/mattn/go-sqlite3

@@ -7,8 +7,8 @@ import (
 	"strings"
 
 	"github.com/gin-gonic/gin"
-	"github.com/laster18/1chan/src/api/config"
-	"github.com/laster18/1chan/src/api/utils"
+	"github.com/laster18/1chan/api/config"
+	"github.com/laster18/1chan/api/utils"
 )
 
 type SaveError struct {

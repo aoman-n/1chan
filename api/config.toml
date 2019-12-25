@@ -5,7 +5,7 @@ port     = "3306"
 name     = "1chan"
 
 [server]
-port    = "3001"
-accessLogfile = "access.log"
-appLogfile = "application.log"
+port              = "3001"
+accessLogfile     = "access.log"
+appLogfile        = "application.log"
 uploadMaxFileSize = 5242880

@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 
-	"github.com/laster18/1chan/src/api/config"
+	"github.com/laster18/1chan/api/config"
 )
 
 var Db *gorm.DB

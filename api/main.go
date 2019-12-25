@@ -7,10 +7,10 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"time"
 
-	"github.com/laster18/1chan/src/api/config"
-	"github.com/laster18/1chan/src/api/db"
-	"github.com/laster18/1chan/src/api/routers"
-	"github.com/laster18/1chan/src/api/utils"
+	"github.com/laster18/1chan/api/config"
+	"github.com/laster18/1chan/api/db"
+	"github.com/laster18/1chan/api/routers"
+	"github.com/laster18/1chan/api/utils"
 )
 
 // 確認用、あとで消す

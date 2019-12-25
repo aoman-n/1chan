@@ -5,9 +5,9 @@ import (
 	"mime/multipart"
 
 	"github.com/gin-gonic/gin"
-	"github.com/laster18/1chan/src/api/db"
-	"github.com/laster18/1chan/src/api/models"
-	"github.com/laster18/1chan/src/api/utils/uploader"
+	"github.com/laster18/1chan/api/db"
+	"github.com/laster18/1chan/api/models"
+	"github.com/laster18/1chan/api/utils/uploader"
 )
 
 func GetPosts(c *gin.Context) {
