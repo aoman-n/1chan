@@ -12,6 +12,10 @@ interface ThreadsPageProps {
 }
 
 const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
+  if (error) {
+    return <div>error.</div>
+  }
+
   return (
     <Layout title="thread list page.">
       <Title>thread list page.</Title>
@@ -25,7 +29,6 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
           </Link>
         ))}
       </div>
-      n
     </Layout>
   )
 }
@@ -33,11 +36,11 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
 IndexPage.getInitialProps = async ctx => {
   const isServer = typeof ctx.req === 'undefined'
 
-  const { threads, error } = await fetchThreadsApi(isServer)
+  try {
+    const { threads } = await fetchThreadsApi(isServer)
 
-  if (typeof error !== 'undefined') {
     return { threads }
-  } else {
+  } catch (error) {
     return { threads: [], error }
   }
 }

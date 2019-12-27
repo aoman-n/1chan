@@ -38,11 +38,11 @@ const ThreadDetailPage: NextPage<ThreadDetailProps> = ({
 ThreadDetailPage.getInitialProps = async ctx => {
   const { tid } = ctx.query
 
-  const { threadDetail, error } = await fetchTreadDetailApi(!!ctx.req, tid)
+  try {
+    const { threadDetail } = await fetchTreadDetailApi(!!ctx.req, tid)
 
-  if (threadDetail) {
     return { threadDetail }
-  } else {
+  } catch (error) {
     return { threadDetail: {} as ThreadDetail, error }
   }
 }
