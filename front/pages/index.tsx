@@ -1,25 +1,48 @@
-import { NextPage } from 'next'
+import { NextPage } from 'next';
+import Link from 'next/link';
+import { AxiosError } from 'axios';
 import styled from 'styled-components';
-import { Button } from 'semantic-ui-react'
 import Layout from '../components/Layout';
+import { Thread } from '../models';
+import { fetchThreadsApi } from '../utils/api';
 
-import 'semantic-ui-css/semantic.min.css'
+interface ThreadsPageProps {
+  threads: Thread[];
+  error?: AxiosError;
+}
 
-const Index: NextPage<{ userAgent: string }> = ({ userAgent }) => (
-  <Layout title="home page">
-    <Title>Hello world! - user agent: {userAgent}</Title>
-    <Button>Button UI</Button>
-  </Layout>
-)
+const IndexPage: NextPage<ThreadsPageProps> = ({ threads, error }) => {
+  return (
+    <Layout title="thread list page.">
+      <Title>thread list page.</Title>
+      <div>
+        {threads.map(thread => (
+          <Link href={`/threads/${thread.id}`} key={thread.id}>
+            <a>
+              <h3>{thread.title}</h3>
+              <p>{thread.description}</p>
+            </a>
+          </Link>
+        ))}
+      </div>n
+    </Layout>
+  )
+}
 
-Index.getInitialProps = async ({ req }) => {
-  const userAgent = req ? req.headers['user-agent'] || '' : navigator.userAgent;
-  return { userAgent };
-};
 
-const Title = styled.h1`
+IndexPage.getInitialProps = async (ctx) => {
+  const { threads, error } = await fetchThreadsApi(!!ctx.req)
+
+  if (!error) {
+    return { threads }
+  } {
+    return { threads: [], error }
+  }
+}
+
+const Title = styled.div`
   color: skyblue;
-  font-size: 16px;
-`
+  font-size: 24px;
+`;
 
-export default Index
+export default IndexPage;
