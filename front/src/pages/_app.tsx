@@ -1,9 +1,9 @@
 import React from 'react'
-import App from 'next/app'
+import App, { AppContext } from 'next/app'
 import 'semantic-ui-css/semantic.min.css'
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }) {
+  static async getInitialProps({ Component, router, ctx }: AppContext) {
     let pageProps = {}
 
     if (Component.getInitialProps) {
