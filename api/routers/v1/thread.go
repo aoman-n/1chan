@@ -3,6 +3,7 @@ package v1
 import (
 	"fmt"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 
@@ -58,7 +59,13 @@ func CraeteThread(c *gin.Context) {
 	fmt.Printf("json.title: %v, json.description: %v", json.Title, json.Description)
 
 	// insert thread
-	db.Db.Create(&models.Thread{Title: json.Title, Description: json.Description})
+	if err := db.Db.Create(&models.Thread{Title: json.Title, Description: json.Description}); err != nil {
+		log.Println("db create failed. error: ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Creation of thread failed",
+		})
+	}
+
 	c.JSON(200, gin.H{
 		"status": "ok",
 	})
@@ -91,7 +98,14 @@ func UpdateThread(c *gin.Context) {
 	if thread.Description != "" {
 		thread.Description = json.Description
 	}
-	db.Db.Save(&thread)
+
+	if err := db.Db.Save(&thread); err != nil {
+		log.Printf("thread %v, save error: %v", thread, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "thread update error",
+		})
+	}
+
 	c.JSON(201, gin.H{
 		"status": "ok",
 		"thread": thread,

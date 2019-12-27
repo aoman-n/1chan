@@ -23,8 +23,8 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./front/:/app
-      - /app/node_modules
-      - /app/.next
+      - node_modules:/app/node_modules
+      - next:/app/.next
     ports:
       - "3000:3000"
     depends_on:
@@ -48,4 +48,8 @@ volumes:
   vendor:
     driver: local
   db:
+    driver: local
+  node_modules:
+    driver: local
+  next:
     driver: local

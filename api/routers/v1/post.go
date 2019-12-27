@@ -3,6 +3,7 @@ package v1
 import (
 	"log"
 	"mime/multipart"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/laster18/1chan/api/db"
@@ -90,7 +91,14 @@ func CreatePost(c *gin.Context) {
 		ThreadId: thread.Id,
 		Image:    filePath,
 	}
-	db.Db.Create(&post)
+
+	if err := db.Db.Create(&post); err != nil {
+		log.Printf("Creation of post failed. post: %v, error: %v", post, err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "creation of post failed",
+		})
+	}
+
 	c.JSON(200, gin.H{
 		"status": "ok",
 		"post":   post,
