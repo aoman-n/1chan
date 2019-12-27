@@ -1,6 +1,6 @@
 import { NextPage } from 'next'
-import styled from 'styled-components';
-import Layout from '../components/Layout';
+import styled from 'styled-components'
+import Layout from '../components/Layout'
 
 const About: NextPage = () => (
   <Layout title="about page">
@@ -10,6 +10,6 @@ const About: NextPage = () => (
 
 const Title = styled.h1`
   color: goldenrod;
-`;
+`
 
 export default About

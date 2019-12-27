@@ -3,7 +3,7 @@ import App, { AppContext } from 'next/app'
 import 'semantic-ui-css/semantic.min.css'
 
 export default class MyApp extends App {
-  static async getInitialProps({ Component, router, ctx }: AppContext) {
+  static async getInitialProps({ Component, ctx }: AppContext) {
     let pageProps = {}
 
     if (Component.getInitialProps) {
@@ -13,7 +13,7 @@ export default class MyApp extends App {
     return { pageProps }
   }
 
-  render () {
+  render() {
     const { Component, pageProps } = this.props
 
     return <Component {...pageProps} />

@@ -12,7 +12,9 @@ const getBaseUrl = (isServer: boolean) => {
 
 export const fetchThreadsApi = async (isServer: boolean) => {
   try {
-    const resp = await axios.get<{threads: Thread[]}>(`${getBaseUrl(isServer)}/threads`)
+    const resp = await axios.get<{ threads: Thread[] }>(
+      `${getBaseUrl(isServer)}/threads`
+    )
 
     return { threads: resp.data.threads }
   } catch (error) {
@@ -20,9 +22,14 @@ export const fetchThreadsApi = async (isServer: boolean) => {
   }
 }
 
-export const fetchTreadDetailApi = async (isServer: boolean, tid: string | string[]) => {
+export const fetchTreadDetailApi = async (
+  isServer: boolean,
+  tid: string | string[]
+) => {
   try {
-    const resp = await axios.get<{thread: ThreadDetail}>(`${getBaseUrl(isServer)}/threads/${tid}`)
+    const resp = await axios.get<{ thread: ThreadDetail }>(
+      `${getBaseUrl(isServer)}/threads/${tid}`
+    )
 
     console.log('resp', resp)
 

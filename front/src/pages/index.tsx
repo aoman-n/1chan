@@ -1,17 +1,17 @@
-import { NextPage } from 'next';
-import Link from 'next/link';
-import { AxiosError } from 'axios';
-import styled from 'styled-components';
-import Layout from '../components/Layout';
-import { Thread } from '../models';
-import { fetchThreadsApi } from '../utils/api';
+import { NextPage } from 'next'
+import Link from 'next/link'
+import { AxiosError } from 'axios'
+import styled from 'styled-components'
+import Layout from '../components/Layout'
+import { Thread } from '../models'
+import { fetchThreadsApi } from '../utils/api'
 
 interface ThreadsPageProps {
-  threads: Thread[];
-  error?: AxiosError;
+  threads: Thread[]
+  error?: AxiosError
 }
 
-const IndexPage: NextPage<ThreadsPageProps> = ({ threads, error }) => {
+const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
   return (
     <Layout title="thread list page.">
       <Title>thread list page.</Title>
@@ -24,18 +24,20 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads, error }) => {
             </a>
           </Link>
         ))}
-      </div>n
+      </div>
+      n
     </Layout>
   )
 }
 
+IndexPage.getInitialProps = async ctx => {
+  const isServer = typeof ctx.req === 'undefined'
 
-IndexPage.getInitialProps = async (ctx) => {
-  const { threads, error } = await fetchThreadsApi(!!ctx.req)
+  const { threads, error } = await fetchThreadsApi(isServer)
 
-  if (!error) {
+  if (typeof error !== 'undefined') {
     return { threads }
-  } {
+  } else {
     return { threads: [], error }
   }
 }
@@ -43,6 +45,6 @@ IndexPage.getInitialProps = async (ctx) => {
 const Title = styled.div`
   color: skyblue;
   font-size: 24px;
-`;
+`
 
-export default IndexPage;
+export default IndexPage
