@@ -11,7 +11,7 @@ interface ThreadsPageProps {
   error?: AxiosError
 }
 
-const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
+const IndexPage: NextPage<ThreadsPageProps> = ({ threads, error }) => {
   if (error) {
     return <div>error.</div>
   }
@@ -34,7 +34,7 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
 }
 
 IndexPage.getInitialProps = async ctx => {
-  const isServer = typeof ctx.req === 'undefined'
+  const isServer = !!ctx.req
 
   try {
     const { threads } = await fetchThreadsApi(isServer)
