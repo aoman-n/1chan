@@ -1,3 +1,4 @@
+const path = require("path")
 const withCSS = require('@zeit/next-css')
 
 module.exports = withCSS({
@@ -11,10 +12,16 @@ module.exports = withCSS({
           limit: 8192,
           publicPath: '/_next/static/',
           outputPath: 'static/',
-          name: '[name].[ext]',
-        },
-      },
+          name: '[name].[ext]'
+        }
+      }
     })
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      "~": path.resolve(__dirname, "./src")
+    };
+
     return config
-  },
+  }
 })

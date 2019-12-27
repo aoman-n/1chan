@@ -2,9 +2,9 @@ import { NextPage } from 'next'
 import Link from 'next/link'
 import { AxiosError } from 'axios'
 import styled from 'styled-components'
-import Layout from '../components/Layout'
-import { Thread } from '../models'
-import { fetchThreadsApi } from '../utils/api'
+import Layout from '~/components/Layout'
+import { Thread } from '~/models'
+import { fetchThreadsApi } from '~/utils/api'
 
 interface ThreadsPageProps {
   threads: Thread[]

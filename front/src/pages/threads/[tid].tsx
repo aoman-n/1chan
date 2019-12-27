@@ -1,8 +1,8 @@
 import { AxiosError } from 'axios'
 import { NextPage } from 'next'
-import Layout from '../../components/Layout'
-import { fetchTreadDetailApi } from '../../utils/api'
-import { ThreadDetail } from '../../models/index'
+import Layout from '~/components/Layout'
+import { fetchTreadDetailApi } from '~/utils/api'
+import { ThreadDetail } from '~/models/index'
 
 interface ThreadDetailProps {
   threadDetail: ThreadDetail
