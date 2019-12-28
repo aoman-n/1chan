@@ -16,7 +16,8 @@ services:
       true
     environment:
       DATABASE_URL: tcp:db:3306*1chan/root/password
-      HOGE: miso
+      DATABASE_HOST: db
+      DATABASE_PORT: 3306
   front:
     build:
       context: ./front
