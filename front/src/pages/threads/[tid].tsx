@@ -1,6 +1,7 @@
 import { AxiosError } from 'axios'
 import { NextPage } from 'next'
 import Layout from '~/components/Layout'
+import Post from '~/components/Post'
 import { fetchTreadDetailApi } from '~/utils/api'
 import { ThreadDetail } from '~/models/index'
 
@@ -25,10 +26,7 @@ const ThreadDetailPage: NextPage<ThreadDetailProps> = ({
       <p>{description}</p>
       <div>
         {posts.map(post => (
-          <div key={post.id}>
-            <p>user: {post.userName}</p>
-            <p>message: {post.message}</p>
-          </div>
+          <Post key={post.id} post={post} />
         ))}
       </div>
     </Layout>
