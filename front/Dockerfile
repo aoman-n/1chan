@@ -1,11 +1,26 @@
-# deevlopment
-FROM node:12.14.0-alpine
-RUN mkdir /app
+FROM node:12.14.0-alpine as devtools
+
+RUN apk add git g++ gcc libgcc libstdc++ linux-headers make python \
+  && npm install npm@latest -g \
+  && npm install node-gyp -g
 WORKDIR /app
-COPY ./ /app
-ENV NODE_ENV=development
+COPY package.json package-lock*.json /app/
 RUN npm install
 
+FROM node:12.14.0-alpine as base
+WORKDIR /app
+COPY --from=devtools /app/node_modules /app/node_modules
+COPY ./ /app
 EXPOSE 3000
 
-CMD [ "npm", "run", "dev" ]
+# Develop Image
+FROM base as dev
+ENV NODE_ENV=development
+ENV PATH=/app/node_modules/.bin:$PATH
+CMD ["npm", "run", "dev"]
+
+# # Production Image
+# FROM base as prod
+# ENV NODE_ENV=production
+# RUN npm run build
+# CMD ["node","server/index.js"]

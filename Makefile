@@ -9,12 +9,6 @@ up:
 down:
 	$(CMD) down
 
-exec api:
-	$(CMD) exec api /bin/sh
-
-exec front:
-	$(CMD) exec front /bin/sh
-
 .PHONY: restart
 ifeq (restart,$(firstword $(MAKECMDGOALS)))
   RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
@@ -22,3 +16,19 @@ ifeq (restart,$(firstword $(MAKECMDGOALS)))
 endif
 restart:
 	$(CMD) up -d $(RUN_ARGS)
+
+.PHONY: logs
+ifeq (logs,$(firstword $(MAKECMDGOALS)))
+  RUN_ARGS := $(wordlist 2,$(words $(MAKECMDGOALS)),$(MAKECMDGOALS))
+  $(eval $(RUN_ARGS):;@:)
+endif
+logs:
+	$(CMD) logs -f $(RUN_ARGS)
+
+start:
+	docker-compose up -d --build
+	open http://localhost:3000
+
+up:
+	docker-compose up -d
+	open http://localhost:3000
