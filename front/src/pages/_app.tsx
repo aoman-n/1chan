@@ -1,5 +1,7 @@
 import React from 'react'
 import App, { AppContext } from 'next/app'
+import { ThemeProvider } from 'styled-components'
+import theme from '~/theme'
 import 'semantic-ui-css/semantic.min.css'
 
 export default class MyApp extends App {
@@ -16,6 +18,10 @@ export default class MyApp extends App {
   render() {
     const { Component, pageProps } = this.props
 
-    return <Component {...pageProps} />
+    return (
+      <ThemeProvider theme={theme}>
+        <Component {...pageProps} />
+      </ThemeProvider>
+    )
   }
 }
