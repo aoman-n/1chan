@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosError } from 'axios'
 import { Thread, ThreadDetail } from '../models'
 
 const BASE_URL_ON_SERVER = 'http://api:3001/api/v1'
@@ -27,4 +27,30 @@ export const fetchTreadDetailApi = async (
   )
 
   return { threadDetail: resp.data.thread }
+}
+
+type PostThreadValue =
+  | { type: 'ok'; thread: Thread }
+  | { type: 'ng'; error: AxiosError<{ message: string }> }
+
+export const postThread = async (
+  title: string,
+  description: string
+): Promise<PostThreadValue> => {
+  try {
+    const resp = await axios.post<{ thread: Thread }>(
+      `${BASE_URL_ON_FRONT}/threads`,
+      {
+        title,
+        description
+      }
+    )
+
+    return { type: 'ok', thread: resp.data.thread }
+  } catch (error) {
+    return {
+      type: 'ng',
+      error: error as AxiosError<{ message: string }>
+    }
+  }
 }

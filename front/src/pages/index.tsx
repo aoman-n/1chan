@@ -1,37 +1,58 @@
 import { NextPage } from 'next'
 import Link from 'next/link'
-import { AxiosError } from 'axios'
 import styled from 'styled-components'
+import { List, Button, Header } from 'semantic-ui-react'
+
 import Layout from '~/components/Layout'
+import Modal from '~/components/Modal'
+import ThreadForm from '~/components/ThreadForm'
+import useOpen from '~/hooks/use-open'
 import { Thread } from '~/models'
 import { fetchThreadsApi } from '~/utils/api'
 
 interface ThreadsPageProps {
   threads: Thread[]
-  error?: AxiosError
 }
 
-const IndexPage: NextPage<ThreadsPageProps> = ({ threads, error }) => {
-  if (error) {
-    return <div>error.</div>
-  }
+const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
+  const { open, onOpen, onClose } = useOpen(false)
 
   return (
-    <Layout title="thread list page.">
-      <Title>thread list page.</Title>
-      <div>
+    <Layout title="thread list page." withHeader>
+      <ButtonWrapper>
+        <Button basic onClick={onOpen}>
+          スレッドを作成
+        </Button>
+        <Modal
+          open={open}
+          onClose={onClose}
+          title="スレッドを作成します"
+          Content={<ThreadForm />}
+        />
+      </ButtonWrapper>
+      <StyledHeader as="h4">スレッド一覧</StyledHeader>
+      <List divided relaxed selection>
         {threads.map(thread => (
           <Link href={`/threads/${thread.id}`} key={thread.id}>
-            <a>
-              <h3>{thread.title}</h3>
-              <p>{thread.description}</p>
-            </a>
+            <List.Item>
+              <List.Content as="a">
+                <List.Header>{thread.title}</List.Header>
+                <List.Description>
+                  {thread.description || <br />}
+                </List.Description>
+              </List.Content>
+            </List.Item>
           </Link>
         ))}
-      </div>
+      </List>
     </Layout>
   )
 }
+
+const StyledHeader = styled(Header)`
+  padding: 0 6px;
+`
+const ButtonWrapper = styled.div``
 
 IndexPage.getInitialProps = async ctx => {
   const isServer = !!ctx.req
@@ -41,13 +62,9 @@ IndexPage.getInitialProps = async ctx => {
 
     return { threads }
   } catch (error) {
-    return { threads: [], error }
+    console.error('fetch threads error: ', error)
+    return { threads: [] }
   }
 }
-
-const Title = styled.div`
-  color: skyblue;
-  font-size: 24px;
-`
 
 export default IndexPage
