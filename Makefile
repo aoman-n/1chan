@@ -3,9 +3,11 @@ CURRENT_DIR = $(shell pwd | sed -e "s/\/cygdrive//g")
 API = api
 FRONT = front
 
+start:
+	$(CMD) up -d --build
+
 up:
 	$(CMD) up -d
-	open http://localhost:3000
 
 down:
 	$(CMD) down
@@ -25,7 +27,3 @@ ifeq (logs,$(firstword $(MAKECMDGOALS)))
 endif
 logs:
 	$(CMD) logs -f $(RUN_ARGS)
-
-start:
-	docker-compose up -d --build
-	open http://localhost:3000

@@ -23,6 +23,22 @@
 
 ## usage
 
+### build & start
+
 ```
-docker-compose up -d --build
+make start
+```
+
+Per default the development server is listening on http://localhost:3000.
+
+### run
+
+```
+make up
+```
+
+### stop
+
+```
+make down
 ```
