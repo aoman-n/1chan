@@ -1,29 +1,15 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Router from 'next/router'
 import styled from 'styled-components'
 import { Button, Form, Message } from 'semantic-ui-react'
+import useForm from '~/hooks/use-form'
 import { postThread } from '~/utils/api'
 
-const initialFormData = {
-  title: '',
-  description: ''
-}
-const initialFormStatus = {
-  isLoading: false,
-  error: false,
-  message: ''
-}
-
 const FormComponent: React.FC = () => {
-  const [formData, setFormData] = useState(initialFormData)
-  const [formStatus, setFormStatus] = useState(initialFormStatus)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
+  const { formData, formStatus, setFormStatus, onChangeText } = useForm({
+    title: '',
+    description: ''
+  })
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,13 +42,13 @@ const FormComponent: React.FC = () => {
     >
       <Form.Field>
         <label>スレッドタイトル</label>
-        <input name="title" onChange={handleChange} value={formData.title} />
+        <input name="title" onChange={onChangeText} value={formData.title} />
       </Form.Field>
       <Form.Field>
         <label>スレッド説明</label>
         <input
           name="description"
-          onChange={handleChange}
+          onChange={onChangeText}
           value={formData.description}
         />
       </Form.Field>

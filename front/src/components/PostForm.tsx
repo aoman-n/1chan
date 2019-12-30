@@ -1,47 +1,20 @@
-import React, { useState, createRef } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import { Form, Segment, Message, Button as SButton } from 'semantic-ui-react'
 import SnackBar from '~/components/SnackBar'
 import Button from '~/components/atoms/Button'
 import useOpen from '~/hooks/use-open'
+import useInputFile from '~/hooks/use-inputFile'
+import useForm from '~/hooks/use-form'
 import { postPost, PostFormParams } from '~/utils/api'
 
-const initialFormData = {
-  name: '',
-  message: ''
-}
-const initialFormStatus = {
-  isLoading: false,
-  error: false,
-  message: ''
-}
-
 const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
-  const [fileName, setFileName] = useState('')
-  const fileRef = createRef<HTMLInputElement>()
-  const [formData, setFormData] = useState(initialFormData)
-  const [formStatus, setFormStatus] = useState(initialFormStatus)
+  const { fileRef, fileName, onChangeFile } = useInputFile()
+  const { formData, formStatus, setFormStatus, reset, onChangeText } = useForm({
+    name: '',
+    message: ''
+  })
   const { open, onOpen, onClose } = useOpen(false)
-
-  const reset = () => {
-    setFormData(initialFormData)
-    setFormStatus(initialFormStatus)
-  }
-
-  const handleChangeText = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    })
-  }
-
-  const handleChangeFile = () => {
-    if (fileRef.current && fileRef.current.files) {
-      setFileName(fileRef.current.files[0].name)
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -81,7 +54,7 @@ const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
             <input
               name="name"
               placeholder="名無しさん"
-              onChange={handleChangeText}
+              onChange={onChangeText}
               value={formData.name}
             />
           </Form.Field>
@@ -90,7 +63,7 @@ const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
             <textarea
               name="message"
               placeholder="メッセージ..."
-              onChange={handleChangeText}
+              onChange={onChangeText}
               value={formData.message}
               rows={5}
             />
@@ -111,10 +84,10 @@ const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
                 style={{ display: 'hidden' }}
                 accept="image/png,image/jpg,image/jpeg"
                 hidden
-                onChange={handleChangeFile}
+                onChange={onChangeFile}
               />
             </ButtonWrapper>
-            {fileName && <FileName>{fileName}</FileName>}
+            {fileName && <span>{fileName}</span>}
           </Form.Field>
           <Message error content={formStatus.message} />
           <Button type="submit" disabled={!formData.message}>
@@ -129,6 +102,5 @@ const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
 const ButtonWrapper = styled.span`
   width: 200px;
 `
-const FileName = styled.span``
 
 export default PostForm
