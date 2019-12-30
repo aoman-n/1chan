@@ -8,6 +8,7 @@ const Footer: React.FC = () => (
 )
 
 const Container = styled.footer`
+  border-top: 1px solid #CCC;
   height: ${props => props.theme.size.footerHeight}px;
   background-color: ${props => props.theme.color.primary};
   display: flex;

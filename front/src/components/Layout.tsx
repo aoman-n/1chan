@@ -31,6 +31,7 @@ const Layout: React.FC<Props> = ({
 )
 
 const Body = styled.div<{ header: boolean }>`
+  color: ${props => props.theme.color.gray};
   ${({ theme, header }) =>
     header
       ? css`

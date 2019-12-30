@@ -5,6 +5,7 @@ import { Header } from 'semantic-ui-react'
 import Layout from '~/components/Layout'
 import Post from '~/components/Post'
 import PostForm from '~/components/PostForm'
+import Marker from '~/components/atoms/Marker'
 import { fetchTreadDetailApi } from '~/utils/api'
 import { ThreadDetail } from '~/models/index'
 
@@ -25,10 +26,12 @@ const ThreadDetailPage: NextPage<ThreadDetailProps> = ({
 
   return (
     <Layout title={`1chan - ${title} スレッドへの投稿ページ`} header>
-      <h2>{title}</h2>
+      <Header as="h2">{title}</Header>
       <p>{description}</p>
       <PostForm threadId={id} />
-      <StyledHeader as="h3">スレッドへの投稿一覧</StyledHeader>
+      <StyledHeader as="h3">
+        <Marker>スレッドへの投稿一覧</Marker>
+      </StyledHeader>
       <PostList>
         {posts.map(post => (
           <Post key={post.id} post={post} />

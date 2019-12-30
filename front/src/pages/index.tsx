@@ -5,6 +5,7 @@ import Layout from '~/components/Layout'
 import Modal from '~/components/Modal'
 import ThreadForm from '~/components/ThreadForm'
 import ThreadComponent from '~/components/Thread'
+import Marker from '~/components/atoms/Marker'
 import useOpen from '~/hooks/use-open'
 import { Thread } from '~/models'
 import { fetchThreadsApi } from '~/utils/api'
@@ -29,7 +30,9 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
           Content={<ThreadForm />}
         />
       </ButtonWrapper>
-      <StyledHeader as="h3">スレッド一覧</StyledHeader>
+      <StyledHeader as="h3">
+        <Marker>スレッド一覧</Marker>
+      </StyledHeader>
       <List divided relaxed selection>
         {threads.map(thread => (
           <ThreadComponent key={thread.id} thread={thread} />
