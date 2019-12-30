@@ -14,13 +14,14 @@ COPY ./ /app
 EXPOSE 3000
 
 # Develop Image
-FROM base as dev
+FROM base as development
 ENV NODE_ENV=development
 ENV PATH=/app/node_modules/.bin:$PATH
 CMD ["npm", "run", "dev"]
 
 # # Production Image
-# FROM base as prod
-# ENV NODE_ENV=production
-# RUN npm run build
-# CMD ["node","server/index.js"]
+FROM base as production
+ENV NODE_ENV=production
+ENV PATH=/app/node_modules/.bin:$PATH
+RUN npm run build
+CMD ["node", "dist/index.js"]

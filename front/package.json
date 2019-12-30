@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "dev": "nodemon",
-    "build": "next build",
-    "start": "next start",
+    "build": "next build && tsc --project tsconfig.server.json",
+    "start": "NODE_ENV=production node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint '*/**/*.{js,ts}' --fix"
   },

@@ -22,11 +22,11 @@ services:
     build:
       context: ./front
       dockerfile: Dockerfile
-      target: dev
+      target: ${BUILD_TARGET}
     volumes:
       - ./front/:/app:delegated
       - node_modules:/app/node_modules
-      - next:/app/.next
+      # - next:/app/.next
     ports:
       - "3000:3000"
     depends_on:
