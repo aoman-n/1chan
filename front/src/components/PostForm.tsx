@@ -7,8 +7,19 @@ import useOpen from '~/hooks/use-open'
 import useInputFile from '~/hooks/use-inputFile'
 import useForm from '~/hooks/use-form'
 import { postPost, PostFormParams } from '~/utils/api'
+import { Post } from '~/models'
 
-const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
+interface PostFormProps {
+  threadId: number
+  setPosts: (prev: Post[] | ((t: Post[]) => Post[])) => void
+  scrollBottom: () => void
+}
+
+const PostForm: React.FC<PostFormProps> = ({
+  threadId,
+  setPosts,
+  scrollBottom
+}) => {
   const { fileRef, fileName, onChangeFile } = useInputFile()
   const { formData, formStatus, setFormStatus, reset, onChangeText } = useForm({
     name: '',
@@ -25,11 +36,11 @@ const PostForm: React.FC<{ threadId: number }> = ({ threadId }) => {
     }
     const resp = await postPost(formParams)
     if (resp.status === 'ok') {
-      console.log('post: ', resp.post)
       reset()
       onOpen()
+      setPosts(prev => [...prev, resp.post])
+      scrollBottom()
     } else {
-      console.error('error: ', resp.error)
       setFormStatus({
         ...formStatus,
         error: true,
