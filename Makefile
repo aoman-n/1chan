@@ -5,6 +5,7 @@ FRONT = front
 
 up:
 	$(CMD) up -d
+	open http://localhost:3000
 
 down:
 	$(CMD) down
@@ -27,8 +28,4 @@ logs:
 
 start:
 	docker-compose up -d --build
-	open http://localhost:3000
-
-up:
-	docker-compose up -d
 	open http://localhost:3000
