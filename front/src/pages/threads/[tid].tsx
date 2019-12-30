@@ -24,7 +24,7 @@ const ThreadDetailPage: NextPage<ThreadDetailProps> = ({
   const { id, title, description, posts } = threadDetail
 
   return (
-    <Layout header>
+    <Layout title={`1chan - ${title} スレッドへの投稿ページ`} header>
       <h2>{title}</h2>
       <p>{description}</p>
       <PostForm threadId={id} />

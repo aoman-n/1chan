@@ -1,7 +1,6 @@
 import { NextPage } from 'next'
 import styled from 'styled-components'
 import { List, Button, Header } from 'semantic-ui-react'
-
 import Layout from '~/components/Layout'
 import Modal from '~/components/Modal'
 import ThreadForm from '~/components/ThreadForm'
@@ -18,7 +17,7 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
   const { open, onOpen, onClose } = useOpen(false)
 
   return (
-    <Layout title="thread list page." header>
+    <Layout title="1chan - スレッド一覧ページ" header>
       <ButtonWrapper>
         <Button basic onClick={onOpen}>
           スレッドを作成
