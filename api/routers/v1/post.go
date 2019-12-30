@@ -79,7 +79,7 @@ func CreatePost(c *gin.Context) {
 			return
 		default:
 			log.Println("Unexpected Error: ", e)
-			c.JSON(500, gin.H{"status": "Unexpected Server Error"})
+			c.JSON(500, gin.H{"message": "Unexpected Server Error"})
 			return
 		}
 	}
@@ -92,11 +92,12 @@ func CreatePost(c *gin.Context) {
 		Image:    filePath,
 	}
 
-	if err := db.Db.Create(&post); err != nil {
+	if err := db.Db.Create(&post).Error; err != nil {
 		log.Printf("Creation of post failed. post: %v, error: %v", post, err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "creation of post failed",
 		})
+		return
 	}
 
 	c.JSON(200, gin.H{

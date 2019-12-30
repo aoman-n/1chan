@@ -47,6 +47,10 @@ func CraeteThread(c *gin.Context) {
 	var json ThreadParams
 	if err := c.ShouldBindJSON(&json); err != nil {
 		log.Println("shouldBindJSON error: ", err)
+		c.JSON(http.StatusInternalServerError, gin.H{
+			"message": "Bad Request",
+		})
+		return
 	}
 
 	// validation
@@ -55,19 +59,23 @@ func CraeteThread(c *gin.Context) {
 			"status":  "Bad Request",
 			"message": "title is required.",
 		})
+		return
 	}
 	fmt.Printf("json.title: %v, json.description: %v", json.Title, json.Description)
 
+	thread := models.Thread{Title: json.Title, Description: json.Description}
 	// insert thread
-	if err := db.Db.Create(&models.Thread{Title: json.Title, Description: json.Description}); err != nil {
+	if err := db.Db.Create(&thread).Error; err != nil {
 		log.Println("db create failed. error: ", err)
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"message": "Creation of thread failed",
 		})
+		return
 	}
 
 	c.JSON(200, gin.H{
 		"status": "ok",
+		"thread": thread,
 	})
 }
 
