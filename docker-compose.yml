@@ -3,8 +3,8 @@ version: '3.7'
 services:
   api:
     build:
-      context: .
-      dockerfile: ./docker/api/Dockerfile
+      context: ./api
+      dockerfile: Dockerfile
     volumes:
       - ./api:/go/src/github.com/laster18/1chan/api
       - vendor:/go/src/github.com/laster18/1chan/api/vendor

@@ -1,6 +1,6 @@
 FROM golang:1.13-alpine
 
-COPY ./api /go/src/github.com/laster18/1chan/api
+COPY . /go/src/github.com/laster18/1chan/api
 WORKDIR /go/src/github.com/laster18/1chan/api
 
 # 下記エラーのワークアラウンド
@@ -19,6 +19,6 @@ RUN apk update \
   # -vendor-only=trueをつけることで、vendorに変更がない場合はキャッシュを使う
   && dep ensure -v -vendor-only=true
 
-RUN chmod 777 ./start.sh
+RUN chmod +x ./start.sh
 
 ENTRYPOINT ["sh", "./start.sh"]
