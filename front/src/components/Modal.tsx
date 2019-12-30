@@ -14,7 +14,7 @@ const ModalModalExample: React.FC<ModalProps> = ({
   title,
   Content
 }) => (
-  <Modal size="small" centered={false} open={open} onClose={onClose}>
+  <Modal size="small" open={open} onClose={onClose}>
     <Modal.Header>{title}</Modal.Header>
     <Modal.Content>{Content}</Modal.Content>
   </Modal>

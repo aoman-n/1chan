@@ -5,16 +5,16 @@ import { Post } from '~/models'
 import { formatDate } from '~/utils/format'
 
 const PostComponent: React.FC<{ post: Post }> = ({ post }) => {
-  const { id, userName, createdAt, message, image } = post
+  const { userName, createdAt, message, image } = post
 
   return (
     <>
       <Header as="h5">
-        {id}. {userName} の投稿
+        - {userName} の投稿
         <Time>{formatDate(createdAt)}</Time>
       </Header>
       <p>{message}</p>
-      {image && <Image src={image} />}
+      {image && <StyledImage src={image} />}
 
       <Divider />
     </>
@@ -25,6 +25,9 @@ const Time = styled.span`
   padding-left: 10px;
   font-size: 12px;
   font-weight: normal;
+`
+const StyledImage = styled(Image)`
+  max-width: 450px !important;
 `
 
 export default PostComponent

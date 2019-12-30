@@ -1,18 +1,18 @@
 import React from 'react'
-import styled from 'styled-components'
-import Link from 'next/link'
+import styled, { css } from 'styled-components'
 import Head from 'next/head'
 import Header from '~/components/Header'
+import Footer from '~/components/Footer'
 
 type Props = {
   title?: string
-  withHeader?: boolean
+  header?: boolean
 }
 
 const Layout: React.FC<Props> = ({
   children,
   title = 'This is the default title',
-  withHeader = false
+  header = false
 }) => (
   <div>
     <Head>
@@ -23,25 +23,27 @@ const Layout: React.FC<Props> = ({
         rel="stylesheet prefetch"
         href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/icon.min.css"
       />
-    </Head>{' '}
-    <header>
-      <nav>
-        |{' '}
-        <Link href="/">
-          <a>Home</a>
-        </Link>{' '}
-        |
-      </nav>
-    </header>
-    {withHeader && <Header />}
-    <Body>{children}</Body>
+    </Head>
+    {header && <Header />}
+    <Body header={header}>{children}</Body>
+    <Footer />
   </div>
 )
 
-const Body = styled.div`
+const Body = styled.div<{ header: boolean }>`
+  ${({ theme, header }) =>
+    header
+      ? css`
+          min-height: calc(
+            100vh - ${theme.size.headerHeight}px - ${theme.size.footerHeight}px
+          );
+        `
+      : css`
+          min-height: calc(100vh - ${theme.size.footerHeight}px);
+        `}
   max-width: 600px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 25px 20px;
 `
 
 export default Layout

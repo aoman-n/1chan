@@ -1,7 +1,10 @@
+import styled from 'styled-components'
 import { AxiosError } from 'axios'
 import { NextPage } from 'next'
+import { Header } from 'semantic-ui-react'
 import Layout from '~/components/Layout'
 import Post from '~/components/Post'
+import PostForm from '~/components/PostForm'
 import { fetchTreadDetailApi } from '~/utils/api'
 import { ThreadDetail } from '~/models/index'
 
@@ -18,20 +21,29 @@ const ThreadDetailPage: NextPage<ThreadDetailProps> = ({
     return <div>fetch Error.</div>
   }
 
-  const { title, description, posts } = threadDetail
+  const { id, title, description, posts } = threadDetail
 
   return (
-    <Layout>
+    <Layout header>
       <h2>{title}</h2>
       <p>{description}</p>
-      <div>
+      <PostForm threadId={id} />
+      <StyledHeader as="h3">スレッドへの投稿一覧</StyledHeader>
+      <PostList>
         {posts.map(post => (
           <Post key={post.id} post={post} />
         ))}
-      </div>
+      </PostList>
     </Layout>
   )
 }
+
+const StyledHeader = styled(Header)`
+  padding: 0 6px;
+`
+const PostList = styled.div`
+  padding-top: 24px;
+`
 
 ThreadDetailPage.getInitialProps = async ctx => {
   const { tid } = ctx.query

@@ -1,11 +1,11 @@
 import { NextPage } from 'next'
-import Link from 'next/link'
 import styled from 'styled-components'
 import { List, Button, Header } from 'semantic-ui-react'
 
 import Layout from '~/components/Layout'
 import Modal from '~/components/Modal'
 import ThreadForm from '~/components/ThreadForm'
+import ThreadComponent from '~/components/Thread'
 import useOpen from '~/hooks/use-open'
 import { Thread } from '~/models'
 import { fetchThreadsApi } from '~/utils/api'
@@ -18,7 +18,7 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
   const { open, onOpen, onClose } = useOpen(false)
 
   return (
-    <Layout title="thread list page." withHeader>
+    <Layout title="thread list page." header>
       <ButtonWrapper>
         <Button basic onClick={onOpen}>
           スレッドを作成
@@ -30,19 +30,10 @@ const IndexPage: NextPage<ThreadsPageProps> = ({ threads }) => {
           Content={<ThreadForm />}
         />
       </ButtonWrapper>
-      <StyledHeader as="h4">スレッド一覧</StyledHeader>
+      <StyledHeader as="h3">スレッド一覧</StyledHeader>
       <List divided relaxed selection>
         {threads.map(thread => (
-          <Link href={`/threads/${thread.id}`} key={thread.id}>
-            <List.Item>
-              <List.Content as="a">
-                <List.Header>{thread.title}</List.Header>
-                <List.Description>
-                  {thread.description || <br />}
-                </List.Description>
-              </List.Content>
-            </List.Item>
-          </Link>
+          <ThreadComponent key={thread.id} thread={thread} />
         ))}
       </List>
     </Layout>

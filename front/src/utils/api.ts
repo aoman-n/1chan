@@ -1,5 +1,5 @@
 import axios, { AxiosError } from 'axios'
-import { Thread, ThreadDetail } from '../models'
+import { Thread, ThreadDetail, Post } from '../models'
 
 const BASE_URL_ON_SERVER = 'http://api:3001/api/v1'
 const BASE_URL_ON_FRONT = 'http://localhost:3001/api/v1'
@@ -50,6 +50,38 @@ export const postThread = async (
   } catch (error) {
     return {
       type: 'ng',
+      error: error as AxiosError<{ message: string }>
+    }
+  }
+}
+
+export interface PostFormParams {
+  threadId: number
+  name: string
+  message: string
+  image?: File
+}
+
+export const postPost = async (params: PostFormParams) => {
+  const { threadId, name, message, image } = params
+  const formData = new FormData()
+  formData.append('name', name)
+  formData.append('message', message)
+  if (image) {
+    formData.append('image', image)
+  }
+
+  try {
+    const resp = await axios.post<{ post: Post }>(
+      `${BASE_URL_ON_FRONT}/threads/${threadId}/posts`,
+      formData,
+      { headers: { 'Content-Type': 'multipart/form-data' } }
+    )
+
+    return { status: 'ok' as const, post: resp.data.post }
+  } catch (error) {
+    return {
+      status: 'ng' as const,
       error: error as AxiosError<{ message: string }>
     }
   }

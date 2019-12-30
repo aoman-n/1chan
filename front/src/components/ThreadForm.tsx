@@ -43,7 +43,7 @@ const FormComponent: React.FC = () => {
         error: true,
         message: resp.error.response
           ? resp.error.response.data.message
-          : 'エラーです'
+          : 'スレッドの作成に失敗しました。'
       })
     }
   }

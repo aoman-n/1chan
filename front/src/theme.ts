@@ -17,6 +17,10 @@ const theme = {
     ultraLightGray: '#e4e4e4',
     skyBlue: '#CAE7F2',
     yellow: '#FFE600'
+  },
+  size: {
+    headerHeight: '300',
+    footerHeight: '80'
   }
 }
 
