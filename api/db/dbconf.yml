@@ -1,3 +1,7 @@
 development:
     driver: mymysql
     open: $DATABASE_URL
+
+production:
+    driver: mymysql
+    open: sample_production_url

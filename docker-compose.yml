@@ -5,6 +5,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+      target: ${BUILD_TARGET}
     volumes:
       - ./api:/go/src/github.com/laster18/1chan/api
       - vendor:/go/src/github.com/laster18/1chan/api/vendor

@@ -42,3 +42,11 @@ make up
 ```
 make down
 ```
+
+## production build
+
+.env
+```
+# BUILD_TARGET=development
+BUILD_TARGET=production
+```
