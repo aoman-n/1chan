@@ -16,9 +16,13 @@ services:
     tty:
       true
     environment:
-      DATABASE_URL: tcp:db:3306*1chan/root/password
-      DATABASE_HOST: db
-      DATABASE_PORT: 3306
+      # tcp:localhost:3306*[db_name]/[user_name]/[password]
+      DB_URL: tcp:db:3306*1chan/root/password
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USER: root
+      DB_PASSWORD: password
+      DB_NAME: 1chan
   front:
     build:
       context: ./front
@@ -46,6 +50,16 @@ services:
       TZ: "Asia/Tokyo"
     ports:
       - 3306:3306
+  nginx:
+    build:
+      context: .
+      dockerfile: ./docker/nginx/Dockerfile
+    ports:
+      - '80:80'
+    depends_on:
+      - api
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
 
 volumes:
   vendor:

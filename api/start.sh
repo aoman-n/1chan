@@ -1,7 +1,12 @@
 #!/bin/bash
 set -e
 
-until mysqladmin ping -h ${DATABASE_HOST} -P ${DATABASE_PORT} --silent; do
+echo DB_HOST
+echo ${DB_HOST}
+echo DB_PORT
+echo ${DB_PORT}
+
+until mysqladmin ping -h ${DB_HOST} -P ${DB_PORT} --silent; do
   echo "waiting for mysql..."
   sleep 2
 done

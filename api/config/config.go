@@ -1,6 +1,9 @@
 package config
 
 import (
+	"fmt"
+	"os"
+
 	"github.com/BurntSushi/toml"
 )
 
@@ -29,6 +32,12 @@ var Server ServerConfig
 
 func init() {
 	_, err := toml.DecodeFile("config.toml", &Config)
+	Db.Password = os.Getenv("DB_PASSWORD")
+	Db.User = os.Getenv("DB_USER")
+	Db.Port = os.Getenv("DB_PORT")
+	Db.Name = os.Getenv("DB_NAME")
+	pass := os.Getenv("DB_PASSWORD")
+	fmt.Println("pass: ", pass)
 	if err != nil {
 		panic(err)
 	}
